@@ -53,7 +53,7 @@ pub fn classify_script(script: &[u8]) -> ScriptType {
 }
 
 // TODO: complete Outpoint tuple struct
-pub struct Outpoint();
+pub struct Outpoint(pub String, pub u32);
 
 pub fn read_pushdata(script: &[u8]) -> &[u8] {
     // TODO: Return the pushdata portion of the script slice (assumes pushdata starts at index 2)
@@ -82,10 +82,11 @@ pub fn apply_fee(balance: &mut u64, fee: u64) {
 
 pub fn move_txid(txid: String) -> String {
     // TODO: Return formatted string including the txid for display or logging
-    format!("txid: {}", txid)
+    format(format_args!("txid: {}", txid))
 }
 
 // TODO: Add necessary derive traits
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Opcode {
     OpChecksig,
     OpDup,
@@ -96,14 +97,15 @@ impl Opcode {
     pub fn from_byte(byte: u8) -> Result<Self, String> {
         // TODO: Implement mapping from byte to Opcode variant
         match byte {
-            0xac => Ok(Opcode::OpDup),
-            0x76 => Ok(Opcode::OpChecksig),
+            0xac => Ok(Opcode::OpChecksig),
+            0x76 => Ok(Opcode::OpDup),
             _ => Err("Invalid opcode: 0x00".to_string()),
         }
     }
 }
 
 // TODO: Add necessary derive traits
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct UTXO {
     pub txid: Vec<u8>,
     pub vout: u32,
