@@ -30,7 +30,9 @@ pub fn swap_endian_u32(num: u32) -> [u8; 4] {
 
 pub fn parse_satoshis(input: &str) -> Result<u64, String> {
     // TODO: Parse input string to u64, return error string if invalid
-    input.parse().map_err(|_| "Invalid satoshi amount".to_string())
+    input
+        .parse()
+        .map_err(|_| "Invalid satoshi amount".to_string())
 }
 
 pub enum ScriptType {
@@ -96,9 +98,8 @@ impl Opcode {
         match byte {
             0xac => Ok(Opcode::OpDup),
             0x76 => Ok(Opcode::OpChecksig),
-            _ => Err("Invalid opcode: 0x00".to_string())
-        }        
-
+            _ => Err("Invalid opcode: 0x00".to_string()),
+        }
     }
 }
 
